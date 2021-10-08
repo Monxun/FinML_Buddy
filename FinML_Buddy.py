@@ -1,9 +1,12 @@
 import pandas as pd
-# from sklearn.metrics import mean_absolute_error
-# from sklearn.model_selection import train_test_split
-# from sklearn.ensemble import RandomForestRegressor
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_absolute_error
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
 import yfinance as yf
 import os
+plt.style.use('seaborn')
 
 
 #STOCK TO FETCH
@@ -29,7 +32,7 @@ while csv_flag:
 
     #GET HISTORICAL DATA (Interval: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo)
     # (Period: “1d”, “5d”, “1mo”, “3mo”, “6mo”, “1y”, “2y”, “5y”, “10y”, “ytd”, “max”)
-    stock_hist = symbol_get.history(interval="1m") 
+    stock_hist = symbol_get.history(period='5d', interval="1m") 
 
     #DISPLAY HEAD IN GUI
     print(stock_hist.head())
@@ -50,6 +53,11 @@ while csv_flag:
 
 stock_data = pd.read_csv(f'{symbol}.csv')
 print(stock_data.head())
+
+# Plot Time Series Data from df
+stock_data.plot(title='GME')
+
+
 
 #CREATE TARGET OBJECT AND CALL Y / CREATE X FROM FEATURES
 y = stock_data.Open
