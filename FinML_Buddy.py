@@ -1,13 +1,13 @@
 import pandas as pd
-from sklearn.metrics import mean_absolute_error
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+# from sklearn.metrics import mean_absolute_error
+# from sklearn.model_selection import train_test_split
+# from sklearn.ensemble import RandomForestRegressor
 import yfinance as yf
 import os
 
 
 #STOCK TO FETCH
-symbol = 'TSLA'
+symbol = 'GME'
 
 # ***********************************************************************************************
 # FETCH STOCK DATA (IF NEEDED)
@@ -27,8 +27,9 @@ while csv_flag:
     #INITIALIZE DATA API OBJECT
     symbol_get = yf.Ticker(symbol)
 
-    #GET HISTORICAL DATA
-    stock_hist = symbol_get.history(period="5d") 
+    #GET HISTORICAL DATA (Interval: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo)
+    # (Period: “1d”, “5d”, “1mo”, “3mo”, “6mo”, “1y”, “2y”, “5y”, “10y”, “ytd”, “max”)
+    stock_hist = symbol_get.history(interval="1m") 
 
     #DISPLAY HEAD IN GUI
     print(stock_hist.head())
