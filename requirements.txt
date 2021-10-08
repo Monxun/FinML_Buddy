@@ -2,3 +2,4 @@ sklearn
 yfinance
 pandas
 matplotlib
+finplot

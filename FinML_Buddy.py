@@ -1,12 +1,13 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import finplot as fplt
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 import yfinance as yf
 import os
-plt.style.use('seaborn')
+
 
 
 #STOCK TO FETCH
@@ -54,9 +55,10 @@ while csv_flag:
 stock_data = pd.read_csv(f'{symbol}.csv')
 print(stock_data.head())
 
-# Plot Time Series Data from df
-stock_data.plot(title='GME')
+# PLOT CANDLESTIC DATA USING FINPLOT
 
+fplt.candlestick_ochl(stock_data[['Open', 'Close', 'High', 'Low']])
+fplt.show()
 
 
 #CREATE TARGET OBJECT AND CALL Y / CREATE X FROM FEATURES
