@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import finplot as fplt
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
@@ -54,18 +53,34 @@ while csv_flag:
 
 stock_data = pd.read_csv(f'{symbol}.csv')
 print(stock_data.head())
+print('/' * 80)
 
 # PLOT CANDLESTIC DATA USING FINPLOT
 
-fplt.candlestick_ochl(stock_data[['Open', 'Close', 'High', 'Low']])
-fplt.show()
+# fplt.candlestick_ochl(stock_hist[['Open', 'Close', 'High', 'Low']])
+# fplt.show()
 
+stock_data['Volume_Diff'] = stock_data['Volume'].diff()
+stock_data['Close_Diff'] = stock_data['Close'].diff()
+stock_data['DVolume_EMA20'] = stock_data['Volume_Diff'].ewm(span=4, adjust=False).mean()
+stock_data['DClose_EMA20'] = stock_data['Close_Diff'].ewm(span=4, adjust=False).mean()
+
+stock_data = stock_data.dropna()
+
+print(stock_data.head())
+print('/' * 80)
+
+print(stock_data.describe())
+print('/' * 80)
+
+stock_data.to_csv(f'{symbol}_PROCESSED.csv', index = True)
 
 #CREATE TARGET OBJECT AND CALL Y / CREATE X FROM FEATURES
-y = stock_data.Open
+y = stock_data.Close
 # features = [f for f in (input().split()) if f in stock_data.columns]
-features = ['High', 'Low', 'Close', 'Volume']
+features = ['Volume_Diff', 'Close_Diff', 'DVolume_EMA20', 'DClose_EMA20']
 print(features)
+print('/' * 80)
 
 X = stock_data[features]
 
